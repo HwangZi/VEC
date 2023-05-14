@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu_1</title>
+	<style>
+	@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,500);
+    html { box-sizing: border-box; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body {
+    	background: #fafafa;
+    	font-family: "Roboto", sans-serif;
+    	font-size: 14px;
+    	margin: 0;
+    }
+    a { text-decoration: none; }
+    	.container {
+    	width: 1000px;
+    	margin: auto;
+    }
+    h1 { text-align:center; margin-top:10px;}
+    nav { background: #2ba0db; }
+    	nav ul {
+    	font-size: 0;
+    	margin: 0;
+    	padding: 0;
+    }
+    nav ul li {
+    	display: inline-block;
+    	position: relative;
+    }
+    nav ul li a {
+    	color: #fff;
+    	display: block;
+    	font-size: 14px;
+    	padding: 15px 14px;
+    	transition: 0.3s linear;
+    }
+    nav ul li:hover { background: #126d9b; }
+    nav ul li ul {
+    	border-bottom: 5px solid #2ba0db;
+    	display: none;
+    	position: absolute;
+    	width: 250px;
+    }
+    nav ul li ul li {
+    	border-top: 1px solid #444;
+    	display: block;
+    }
+    nav ul li ul li:first-child { border-top: none; }
+    nav ul li ul li a {
+    	background: #373737;
+    	display: block;
+    	padding: 10px 14px;
+    }
+    nav ul li ul li a:hover { background: #126d9b; }
+    nav .fa.fa-angle-down { margin-left: 6px; }
+
+  	table {
+    	width: 20%;
+    	border-top: 1px solid #444444;
+    	border-collapse: collapse;
+  	}
+  	th, td {
+    	border-bottom: 1px solid #444444;
+    	padding: 5px;
+    	text-align: center;
+  	}
+  	th:first-child, td:first-child {
+    border-left: none;
+  	}
+  	.flex-container {
+        display: flex;
+        justify-content: space-;
+    }
+	</style>
+</head>
+<body>
+    <h1>텍스트로 확인</h1>
+	<nav>
+		<div class="container">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/menu1">텍스트로 확인</a></li>
+				<li><a href="/menu2">그래프로 확인</a></li>
+			</ul>
+		</div>
+	</nav>
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+		$('nav li').hover(
+			function() {
+				$('ul', this).stop().slideDown(200);
+			},
+			function() {
+				$('ul', this).stop().slideUp(200);
+			}
+		);
+	</script>
+	<p></p>
+	<form action="/menu1/update" method="POST">
+		<button type="submit">Update</button>
+    </form>
+	<table>
+		<thead>
+			<tr>
+				<th>시간(sec)</th>
+				<th>최적 차량</th>
+				<th>현재 기준 최종 차량</th>
+			</tr>
+		</thead>
+		<tbody>
+			<p></p>
+			{% for i in range(data|length-1, -1, -1) %}
+				{% if i == data|length-1 %}
+					<tr>
+						<td>{{i}}</td>
+						<td>{{ data[i] }}</td>
+						<td>O</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td>{{i}}</td>
+						<td>{{ data[i] }}</td>
+						<td>X</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

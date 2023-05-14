@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu_2</title>
+	<style>
+	@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,500);
+    html { box-sizing: border-box; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body {
+    	background: #fafafa;
+    	font-family: "Roboto", sans-serif;
+    	font-size: 14px;
+    	margin: 0;
+    }
+    a { text-decoration: none; }
+    	.container {
+    	width: 1000px;
+    	margin: auto;
+    }
+    h1 { text-align:center; margin-top:10px;}
+    nav { background: #2ba0db; }
+    	nav ul {
+    	font-size: 0;
+    	margin: 0;
+    	padding: 0;
+    }
+    nav ul li {
+    	display: inline-block;
+    	position: relative;
+    }
+    nav ul li a {
+    	color: #fff;
+    	display: block;
+    	font-size: 14px;
+    	padding: 15px 14px;
+    	transition: 0.3s linear;
+    }
+    nav ul li:hover { background: #126d9b; }
+    nav ul li ul {
+    	border-bottom: 5px solid #2ba0db;
+    	display: none;
+    	position: absolute;
+    	width: 250px;
+    }
+    nav ul li ul li {
+    	border-top: 1px solid #444;
+    	display: block;
+    }
+    nav ul li ul li:first-child { border-top: none; }
+    nav ul li ul li a {
+    	background: #373737;
+    	display: block;
+    	padding: 10px 14px;
+    }
+    nav ul li ul li a:hover { background: #126d9b; }
+    nav .fa.fa-angle-down { margin-left: 6px; }
+
+  	table {
+    	width: 20%;
+    	border-top: 1px solid #444444;
+    	border-collapse: collapse;
+  	}
+  	th, td {
+    	border-bottom: 1px solid #444444;
+    	padding: 5px;
+    	text-align: center;
+  	}
+  	th:first-child, td:first-child {
+    border-left: none;
+  	}
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"></script>
+</head>
+</head>
+<body>
+    <h1>그래프로 확인</h1>
+	<nav>
+		<div class="container">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/menu1">텍스트로 확인</a></li>
+				<li><a href="/menu2">그래프로 확인</a></li>
+			</ul>
+		</div>
+	</nav>
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+		$('nav li').hover(
+			function() {
+				$('ul', this).stop().slideDown(200);
+			},
+			function() {
+				$('ul', this).stop().slideUp(200);
+			}
+		);
+	</script>
+	<p></p>
+	<form action="/menu2/update" method="POST">
+		<button type="submit">Update</button>
+    </form>
+
+	<canvas id="누적정확도" width="200" height="70"></canvas>
+	<script>
+		var ctx = document.getElementById('누적정확도').getContext('2d');
+		var chart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: [{% for i in range(data|length) %}"{{ i }}",{% endfor %}],
+				datasets: [{
+					label: '해당 시점의 정확도',
+					backgroundColor: 'rgba(255, 99, 132, 0.2)',
+					borderColor: 'rgba(255, 99, 132, 1)',
+					data: [{% for i in data %}{{ i }},{% endfor %}],
+					tension: 0.4
+				}]
+			},
+			options: {
+				scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: '시간(sec)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '모델 정확도'
+                    }
+                }
+            }
+			}
+		});
+	</script>
+</body>
+</html>
